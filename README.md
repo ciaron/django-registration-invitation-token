@@ -13,7 +13,7 @@ Installation
 3. In urls.py, make sure you have:
 > url(r'^accounts/', include('registration.backends.token.urls')) 
 
-instead of the standard "backends.simple" or "backends.default"
+  instead of the standard "backends.simple" or "backends.default"
 
 4. Run "python manage.py syncdb".
 
