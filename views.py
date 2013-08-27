@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.conf import settings
 from django.contrib.sites.models import RequestSite
 from django.contrib.sites.models import Site
@@ -8,6 +9,7 @@ from registration.views import ActivationView as BaseActivationView
 from registration.views import RegistrationView as BaseRegistrationView
 
 from registration.backends.token.forms import TokenRegistrationForm
+from registration.backends.token.models import InvitationCode
 
 # Token-based registration backend
 
@@ -73,14 +75,24 @@ class RegistrationView(BaseRegistrationView):
         the new ``User`` as the keyword argument ``user`` and the
         class of this backend as the sender.
 
+        The invitation code/token supplied will be have it's is_used field
+        marked 'True' and the used_date filled in appropriately.
+
         """
-        username, email, password = cleaned_data['username'], cleaned_data['email'], cleaned_data['password1']
+        username, email, password, token = cleaned_data['username'], cleaned_data['email'], cleaned_data['password1'], cleaned_data['token']
+
         if Site._meta.installed:
             site = Site.objects.get_current()
         else:
             site = RequestSite(request)
         new_user = RegistrationProfile.objects.create_inactive_user(username, email,
                                                                     password, site)
+
+        tkn = InvitationCode.objects.get(code=token)
+        tkn.is_used = True
+        tkn.used_date = datetime.now()
+        tkn.save()
+
         signals.user_registered.send(sender=self.__class__,
                                      user=new_user,
                                      request=request)

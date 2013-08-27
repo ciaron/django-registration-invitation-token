@@ -69,11 +69,16 @@ class TokenRegistrationForm(forms.Form):
                 raise forms.ValidationError(_("The two password fields didn't match."))
 	
         if 'token' in self.cleaned_data:
-            tk = InvitationCode.objects.filter(code=self.cleaned_data['token'])
+            try:
+                tk = InvitationCode.objects.get(code=self.cleaned_data['token'])
+            except:
+                tk = False
 
-            #if self.cleaned_data['token'] != '12345':
             if not tk:
-                raise forms.ValidationError(_("The invitation token you entered is invalid"))
+                raise forms.ValidationError(_("The invitation code you entered is invalid"))
+            else:
+                if tk.is_used:
+                    raise forms.ValidationError(_("The invitation code you entered has already been used, sorry!"))
 
         return self.cleaned_data
 
