@@ -32,10 +32,11 @@ class TokenRegistrationForm(forms.Form):
     """
     required_css_class = 'required'
     
-    username = forms.RegexField(regex=r'^[\w.@+-]+$',
+    #username = forms.RegexField(regex=r'^[\w.@+-]+$',
+    username = forms.RegexField(regex=r'^[\w+-]+$',
                                 max_length=30,
-                                label=_("Username"),
-                                error_messages={'invalid': _("This value may contain only letters, numbers and @/./+/-/_ characters.")})
+                                label=_("Username (username.pandachrome.com)"),
+                                error_messages={'invalid': _("The username may contain only letters, numbers and + - _ characters.")})
     email = forms.EmailField(label=_("E-mail"))
     password1 = forms.CharField(widget=forms.PasswordInput,
                                 label=_("Password"))
