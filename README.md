@@ -11,7 +11,7 @@ Copy this subdirectory (or symlink it) to your registration/backends directory, 
 You should already have "registration" in your INSTALLED_APPS, and you will need to add "registration.backends.token".
 
 In urls.py, make sure you have:
-   url(r'^accounts/', include('registration.backends.token.urls')) 
+> url(r'^accounts/', include('registration.backends.token.urls')) 
 
 instead of the standard "backends.simple" or "backends.default"
 
