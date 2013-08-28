@@ -11,3 +11,6 @@ class InvitationCode(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
     used_date = models.DateTimeField(blank=True, null=True, auto_now_add=True,
         verbose_name=_(u"Used on"))
+
+    def __unicode__(self):
+        return self.code
