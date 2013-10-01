@@ -5,10 +5,13 @@ from django.utils.translation import ugettext_lazy as _
 
 from registration.backends.token.models import InvitationCode
 
+def mark_issued(modeladmin, request, queryset):
+    queryset.update(is_issued=True)
+mark_issued.short_description = "Mark selected codes as 'issued'"
 
 class InvitationCodeAdmin(admin.ModelAdmin):
-    #actions = ['activate_users', 'resend_activation_email']
-    #list_display = ('user', 'activation_key_expired')
+    actions = [mark_issued]
+    list_display = ('code', 'is_used', 'is_issued')
     #raw_id_fields = ['user']
     #search_fields = ('user__username', 'user__first_name', 'user__last_name')
 

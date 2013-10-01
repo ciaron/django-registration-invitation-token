@@ -8,6 +8,8 @@ class InvitationCode(models.Model):
         verbose_name=_(u"Invitation code"))
     is_used = models.BooleanField(default=False,
         verbose_name=_(u"Is code used?"))
+    is_issued = models.BooleanField(default=False,
+        verbose_name=_(u"Has code been issued to someone?"))
     user = models.ForeignKey(User, blank=True, null=True)
     used_date = models.DateTimeField(blank=True, null=True, auto_now_add=True,
         verbose_name=_(u"Used on"))
