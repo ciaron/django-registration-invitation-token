@@ -11,7 +11,7 @@ mark_issued.short_description = "Mark selected codes as 'issued'"
 
 class InvitationCodeAdmin(admin.ModelAdmin):
     actions = [mark_issued]
-    list_display = ('code', 'is_used', 'is_issued')
+    list_display = ('code', 'is_issued', 'is_used')
     #raw_id_fields = ['user']
     #search_fields = ('user__username', 'user__first_name', 'user__last_name')
 
