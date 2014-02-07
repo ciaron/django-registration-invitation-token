@@ -13,6 +13,10 @@ from django.contrib.auth.models import User
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Fieldset, Reset
+from crispy_forms.bootstrap import FormActions, AppendedText
+
 from registration.backends.token.models import InvitationCode
 
 class TokenRegistrationForm(forms.Form):
@@ -43,6 +47,24 @@ class TokenRegistrationForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput,
                                 label=_("Password (again)"))
     token = forms.CharField(label=_("Invitation code"))
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+
+        self.helper.layout = Layout(
+            Fieldset(
+                'create an account',
+                'username',
+                'email',
+                'password1',
+                'password2',
+                'token',
+            ),
+            FormActions(
+                Submit('submit', 'Submit', css_class="btn-primary"),
+            )
+        )
+        super(TokenRegistrationForm, self).__init__(*args, **kwargs)
     
     def clean_username(self):
         """
