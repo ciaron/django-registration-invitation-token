@@ -37,8 +37,8 @@ class TokenRegistrationForm(forms.Form):
                                 max_length=30,
                                 label=_("Username"),
                                 error_messages={'invalid': _("The username may contain only letters, numbers and + - _ characters.")})
-    firstname = forms.CharField(label=_("First name"))
-    lastname = forms.CharField(label=_("Last name"))
+    #firstname = forms.CharField(label=_("First name"))
+    #lastname = forms.CharField(label=_("Last name"))
     email = forms.EmailField(label=_("E-mail"))
     password1 = forms.CharField(widget=forms.PasswordInput,
                                 label=_("Password"))
