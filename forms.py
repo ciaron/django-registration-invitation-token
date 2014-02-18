@@ -35,13 +35,15 @@ class TokenRegistrationForm(forms.Form):
     #username = forms.RegexField(regex=r'^[\w.@+-]+$',
     username = forms.RegexField(regex=r'^[\w+-]+$',
                                 max_length=30,
-                                label=_("Username (your URL will be username.pandachrome.com, choose wisely!)"),
+                                label=_("Username"),
                                 error_messages={'invalid': _("The username may contain only letters, numbers and + - _ characters.")})
+    firstname = forms.CharField(label=_("First name"))
+    lastname = forms.CharField(label=_("Last name"))
     email = forms.EmailField(label=_("E-mail"))
     password1 = forms.CharField(widget=forms.PasswordInput,
                                 label=_("Password"))
-    password2 = forms.CharField(widget=forms.PasswordInput,
-                                label=_("Password (again)"))
+    #password2 = forms.CharField(widget=forms.PasswordInput,
+    #                            label=_("Password (again)"))
     token = forms.CharField(label=_("Invitation code"))
     
     def clean_username(self):
@@ -58,15 +60,15 @@ class TokenRegistrationForm(forms.Form):
 
     def clean(self):
         """
-        Verifiy that the values entered into the two password fields
+        Verify that the values entered into the two password fields
         match. Note that an error here will end up in
         ``non_field_errors()`` because it doesn't apply to a single
         field.
         
         """
-        if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
-            if self.cleaned_data['password1'] != self.cleaned_data['password2']:
-                raise forms.ValidationError(_("The two password fields didn't match."))
+        #if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
+        #   if self.cleaned_data['password1'] != self.cleaned_data['password2']:
+        #       raise forms.ValidationError(_("The two password fields didn't match."))
 	
         if 'token' in self.cleaned_data:
             try:
@@ -81,7 +83,6 @@ class TokenRegistrationForm(forms.Form):
                     raise forms.ValidationError(_("The invitation code you entered has already been used, sorry!"))
 
         return self.cleaned_data
-
 
 class RegistrationFormTermsOfService(TokenRegistrationForm):
     """
